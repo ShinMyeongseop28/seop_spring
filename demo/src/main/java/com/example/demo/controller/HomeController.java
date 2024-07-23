@@ -22,6 +22,7 @@ public class HomeController {
 		return model;
 	}
 	
+	//1. Model 사용
 	//주소의 요청: if(uri.equals("/first") {}
 	@RequestMapping("/first")
 	public String first(Model model) {

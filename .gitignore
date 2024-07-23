@@ -1,5 +1,6 @@
 .metadata/
 */target/*
+important.yml
 
 # Compiled class file
 *.class

@@ -20,11 +20,11 @@ public class MemberController {
 		//일치하는 경우: 로그인성공 -> 홈으로
 		//일치하지 않는 경우: 로그인실패 -> 로그인화면으로
 		if(userid.equals("hong") && userpw.equals("1234")) {
-			//return "index"; //forward
-			return "redirect:/";
+			//return "index"; //forward 방식
+			return "redirect:/"; //redirect 방식
 		}else {
-			//return "member/login"; //forward
-			return "redirect:login";
+			//return "member/login"; //forward 방식
+			return "redirect:login"; //redirect 방식
 		}
 	}
 	
@@ -35,7 +35,7 @@ public class MemberController {
 	}
 	
 	//회원가입 요청 파라미터 접근
-	//3. @ModelAttribute :
+	//3. @ModelAttribute : @ModelAttribute 생략가능
 	@RequestMapping("/joinModel")
 	public String join(@ModelAttribute MemberVO vo, Model model) {
 		model.addAttribute("vo", vo);
@@ -43,7 +43,7 @@ public class MemberController {
 		return "member/info";
 	}
 	
-	//2. @RequestParam
+	//2. @RequestParam: 요청 파라미터명이 메소드 파라미터변수명과 같다면 @RequestParam 생략가능 
 	@RequestMapping("/joinParam")
 	public String join(String name, @RequestParam("gender") String g, 
 			int age, Model model) {

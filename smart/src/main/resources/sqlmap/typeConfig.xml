@@ -3,5 +3,7 @@
 <configuration>
   <typeAliases>
     <typeAlias type="kr.co.smart.customer.CustomerVO" alias="Customer" />
+    <typeAlias type="kr.co.smart.hr.EmployeeVO" alias="Employee" />
+    <typeAlias type="kr.co.smart.hr.DepartmentVO" alias="Department" />
   </typeAliases>
 </configuration>

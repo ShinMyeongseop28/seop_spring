@@ -9,16 +9,13 @@
 <body>
 <h3 class="my-4">사원정보</h3>
 
-<form method="post" action="update">
-<input type="hidden" name="employee_id" value="${ vo.employee_id }">
+<form method="post" action="register">
+<%-- <input type="hidden" name="employee_id" value="${ vo.employee_id }"> --%>
 <table class="table tb-row">
 <colgroup>
 	<col width="200px">
 	
 </colgroup>
-<tr><th>사번</th>
-	<td>${ vo.employee_id }</td>
-</tr>
 <tr><th>사원명</th>
 	<td><div class="row">
 			<div class="col-auto">
@@ -68,7 +65,7 @@
 				<select name="department_id" class="form-select">
 					<option value="-1">소속없음</option>
 					<c:forEach items="${ departments }" var="d">
-					<option ${ vo.department_id eq d.department_id ? "selected" : "" } value="${ d.department_id }">${ d.department_name } </option> 
+					<option value="${ d.department_id }">${ d.department_name } </option> 
 					</c:forEach>
 				</select>
 			</div>
@@ -80,7 +77,7 @@
 			<div class="col-auto">
 				<select name="job_id" class="form-select">
 					<c:forEach items="${ jobs }" var="j">
-					<option <c:if test="${ vo.job_id eq j.job_id }">selected</c:if> value="${ j.job_id }">${ j.job_title }</option>
+					<option value="${ j.job_id }">${ j.job_title }</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -93,7 +90,7 @@
 				<select name="manager_id" class="form-select">
 					<option value="-1">매니저없음</option>
 					<c:forEach items="${ managers }" var="m">
-					<option ${ vo.manager_id eq m.manager_id ? "selected" : "" } value="${ m.manager_id }">${ m.manager_name }</option>
+					<option value="${ m.manager_id }">${ m.manager_name }</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -113,12 +110,17 @@
 //     $( ".date" ).datepicker();
 //   } );
 
+$(function(){
+	//신규사원 입사일자의 기본: 오늘 날짜로 지정
+	$(".date").datepicker("setDate", new Date());
+})
+
 $("#btn-save").on("click", function(){
 	$("form").submit();
 })
 
 $("#btn-cancel").on("click", function(){
-	location='info?id=${vo.employee_id}';
+	location='list';
 })
 // document.getElementById("btn-cancel").addEventListener("click", function(){
 // 	location='info?id=${vo.employee_id}';

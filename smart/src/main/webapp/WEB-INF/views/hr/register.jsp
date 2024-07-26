@@ -54,7 +54,7 @@
 <tr><th>급여</th>
 	<td><div class="row">
 			<div class="col-auto">
-				<input type="text" name="salary" value="${ vo.salary }" class="form-control" required>
+				<input type="text" name="salary" value="3000" class="form-control" required >
 			</div>
 		</div>
 	</td>

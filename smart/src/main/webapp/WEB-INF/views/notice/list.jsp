@@ -7,13 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3 class="mt-4">스마트 IoT 홈</h3>
-<img src="<c:url value='/images/IoT.jfif'/>" class="w-50" onclick="test()">
-
-<script>
-function test(){
-	alert("아이디나 이메일이 맞지 않습니다."); location='member/findPassword';
-}
-</script>
+<h3 class="my-4">공지글 목록</h3>
 </body>
 </html>

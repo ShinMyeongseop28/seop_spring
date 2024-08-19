@@ -6,7 +6,7 @@ var member = {
 	// 태그별로 상태확인
 	tagStatus: function( tag, keyup ){
 		if( tag.is("[name=userpw]")) 		 return this.userpwStatus( tag.val(), keyup );
-		else if( tag.is("[name=userpw_ck]")) return this.userpwCheckStatus( tag.val() );;
+		else if( tag.is("[name=userpw_ck]")) return this.userpwCheckStatus( tag.val() );
 	},
 	
 	// 공통 상태값
@@ -23,7 +23,7 @@ var member = {
 		invalid: { is: false, desc: "영문 대/소문자, 숫자만 입력하세요" },
 		lack:	 { is: false, desc: "영문 대/소문자, 숫자를 모두 포함해야 합니다" },
 		equal:	 { is: true,  desc: "비밀번호와 일치합니다" },
-		notequal:{ is: false, desc: "비밀번호와 일치하지 않습니다" }
+		notEqual:{ is: false, desc: "비밀번호와 일치하지 않습니다" }
 	},
 	
 	space: /\s/g,
@@ -51,7 +51,7 @@ var member = {
 	// 입력 비번확인(재입력) 상태확인
 	userpwCheckStatus: function( ck ){
 		if( ck == $("[name=userpw]").val() )	return this.userpw.equal;
-		else									return this.userpw.notequal;
+		else									return this.userpw.notEqual;
 	},
 	
 	// 입력상태표시

@@ -6,6 +6,10 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style type="text/css">
+#naver { background: url("<c:url value='/images/naver.png'/>") center/contain no-repeat #03c75a }
+#kakao { background: url("<c:url value='/images/kakao.png'/>") center/contain no-repeat #FEE500 }
+</style>
 </head>
 <body>
 	<div class="row justify-content-center">
@@ -19,7 +23,7 @@
 				<div class="card-body p-5">
 					<form method="post" action="smartLogin">
 						<div class="form-floating mb-3">
-							<input class="form-control" name="userid" type="id"
+							<input class="form-control" name="userid" type="text"
 								placeholder="아이디"> <label>아이디</label>
 						</div>
 						<div class="form-floating mb-3">
@@ -32,9 +36,14 @@
 <!-- 								class="form-check-label" for="inputRememberPassword">Remember -->
 <!-- 								Password</label> -->
 <!-- 						</div> -->
-						<button class="btn btn-primary from-control py-3">로그인</button>
+						<button class="btn btn-primary form-control py-3">로그인</button>
 						
 					</form>
+					<div class="mt-3 d-flex gap-4">
+						<input type="button" class="btn form-control p-2" id="naver">
+						<input type="button" class="btn form-control p-2" id="kakao">
+					</div>
+					
 				</div>
 				<div class="card-footer text-center py-3">
 					<div class="d-flex align-items-center justify-content-between my-2">
@@ -47,4 +56,9 @@
 		</div>
 	</div>
 </body>
+<script>
+$("#naver, #kakao").on("click", function(){
+	location = $(this).attr("id") + "Login"
+})
+</script>
 </html>

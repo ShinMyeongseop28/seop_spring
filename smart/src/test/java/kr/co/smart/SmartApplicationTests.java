@@ -20,6 +20,22 @@ class SmartApplicationTests {
 	@Autowired private MemberMapper member;  // 필드주입
 	@Autowired private PasswordEncoder passwordEncoder;
 	
+	@Test
+	void update() {
+		Scanner scan =  new Scanner(System.in);
+		MemberVO vo = new MemberVO();
+		System.out.println("아이디: ");
+		String userid = scan.next();
+		vo.setUserid(userid);
+		
+		System.out.println("비밀번호: ");
+		String userpw = scan.next();
+		vo.setUserpw( passwordEncoder.encode(userpw));
+		
+		scan.close();
+		member.updatePassword(vo);
+	}
+	
 	//로그인
 	@Test
 	void login() {

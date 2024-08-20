@@ -21,6 +21,14 @@ public class MemberController {
 	private MemberMapper mapper;
 	private PasswordEncoder password;
 	
+	//새 비밀번호로 변경저장 처리 요청
+	@ResponseBody @RequestMapping("/user/resetPassword")
+	public boolean resetPassword(MemberVO vo, String userpw) {
+		//MemberVO의 id: park, pw: asd123A
+		vo.setUserpw( password.encode(userpw) ); // 입력비번을 암호화하기
+		return mapper.updatePassword(vo)==1 ? true : false;
+	}
+	
 	//현재 입력한 비번이 정확한지 확인 요청
 	@ResponseBody @RequestMapping("/user/correctPassword")
 	public boolean correctPassword(String userid, String userpw) {

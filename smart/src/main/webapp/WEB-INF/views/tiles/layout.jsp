@@ -27,9 +27,11 @@
         <link href="<c:url value='/css/styles.css'/>" rel="stylesheet" />
         <link href="<c:url value='/css/common.css'/>" rel="stylesheet" />
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
+        <link rel="stylesheet" href="<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>">
         
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"></script>
         <script src="<c:url value='/js/common.js'/>"></script>
         
     </head>
@@ -65,13 +67,25 @@
                             	</c:if>
                             	
                             	<c:if test="${not empty loginInfo }">
+                            	
+                            	<li class="nav-item">
+                            		<div class="profile px40">
+                            		<c:choose>
+                            			<c:when test="${ empty loginInfo.profile }"><i class="font-profile fa-solid fa-user-secret"></i></c:when>
+                            			<c:otherwise><img src="${ loginInfo.profile }"></c:otherwise>
+                            		</c:choose>
+                            		</div>
+                           		</li>
+                            	
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${ loginInfo.name }</a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    	<c:if test="${ empty loginInfo.social }">
                                         <a class="dropdown-item" href="#!">아이디: ${ loginInfo.userid }</a>
                                         <a class="dropdown-item" href="#!">My page</a>
                                         <a class="dropdown-item" href="<c:url value='/member/user/changePassword'/>">비밀번호 변경</a>
                                         <div class="dropdown-divider"></div>
+                                        </c:if>
                                         <a class="dropdown-item" href="<c:url value='/member/logout'/>">로그아웃</a>
                                     </div>
                                 </li>

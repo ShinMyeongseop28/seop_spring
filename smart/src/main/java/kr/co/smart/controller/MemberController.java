@@ -21,14 +21,20 @@ public class MemberController {
 	private MemberMapper mapper;
 	private PasswordEncoder password;
 	
-	//회원가입화면 요청
+	// 아이디 중복확인 요청
+	@ResponseBody @RequestMapping("/idCheck")
+	public boolean idCheck(String userid) {
+		return true;
+	}
+	
+	// 회원가입화면 요청
 	@RequestMapping("/join")
 	public String join(HttpSession session) {
 		session.setAttribute("category", "join");
 		return "default/member/join";
 	}
 	
-	//새 비밀번호로 변경저장 처리 요청
+	// 새 비밀번호로 변경저장 처리 요청
 	@ResponseBody @RequestMapping("/user/resetPassword")
 	public boolean resetPassword(MemberVO vo, String userpw) {
 		//MemberVO의 id: park, pw: asd123A
@@ -36,7 +42,7 @@ public class MemberController {
 		return mapper.updatePassword(vo)==1 ? true : false;
 	}
 	
-	//현재 입력한 비번이 정확한지 확인 요청
+	// 현재 입력한 비번이 정확한지 확인 요청
 	@ResponseBody @RequestMapping("/user/correctPassword")
 	public boolean correctPassword(String userid, String userpw) {
 		//입력한 비번이 DB의 비번과 일치하는지
@@ -44,14 +50,14 @@ public class MemberController {
 		return password.matches(userpw, vo.getUserpw());
 	}
 	
-	//비밀번호 변경 화면 요청
+	// 비밀번호 변경 화면 요청
 	@RequestMapping("/user/changePassword")
 	public String changePassword(HttpSession session) {
 		session.setAttribute("category", "change");
 		return "member/change";
 	}
 	
-	//임시 비밀번호 발급처리 요청
+	// 임시 비밀번호 발급처리 요청
 	@ResponseBody @RequestMapping("/tempPassword")
 	public String tempPassword(MemberVO vo) {
 		//화면에서 입력한 아이디와 이메일이 일치하는 회원에게
@@ -79,14 +85,14 @@ public class MemberController {
 		return msg.toString();
 	}
 	
-	//비밀번호찾기 화면 요청
+	// 비밀번호찾기 화면 요청
 	@RequestMapping("/findPassword")
 	public String findPassword(HttpSession session) {
 		session.setAttribute("category", "find");
 		return "default/member/find";
 	}
 	
-	//로그인 처리 요청
+	// 로그인 처리 요청
 	@ResponseBody @RequestMapping("/smartLogin")
 	public String login(String userid, String userpw, HttpServletRequest request, HttpSession session) {
 		//화면에서 입력한 아이디/비번이 일치하는 회원정보 조회하기
@@ -115,7 +121,7 @@ public class MemberController {
 		return msg.toString();
 	}
 	
-	//로그인 화면 요청
+	// 로그인 화면 요청
 	@RequestMapping("/login")
 	public String login(HttpSession session) {
 		session.setAttribute("category", "login");

@@ -59,7 +59,7 @@ var member = {
 	
 	// 공통 상태값
 	common: {
-		empty: { is: false,  desc: "비밀번호를 입력하세요" },
+		empty: { is: false,  desc: "입력하세요" },
 		min:   { is: false,  desc: "5자이상 입력하세요" },
 		max:   { is: false,  desc: "10자이내 입력하세요" },
 		space: { is: false,  desc: "공백없이 입력하세요" }

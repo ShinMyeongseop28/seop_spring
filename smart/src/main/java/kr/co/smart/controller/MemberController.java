@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.smart.common.CommonUtility;
 import kr.co.smart.member.MemberMapper;
@@ -21,10 +22,36 @@ public class MemberController {
 	private MemberMapper mapper;
 	private PasswordEncoder password;
 	
+	// 회원가입처리 요청
+	@ResponseBody @RequestMapping("/register")
+	public String join(MultipartFile file, MemberVO vo, HttpServletRequest request) {
+		// 프로필 이미지 첨부한 경우
+		if( ! file.isEmpty() ) {
+			vo.setProfile( common.fileUpload("profile", file, request) );
+		}
+		
+		// 입력비번 암호화하기
+		vo.setUserpw( password.encode(vo.getUserpw()) );
+		// 화면에서 입력한 정보로 DB에 회원정보저장 처리 -> 로그인/회원가입화면으로 연결
+		StringBuffer msg = new StringBuffer("<script>");
+		
+		if( mapper.registerMember(vo) == 1 ) {
+			msg.append("alert('회원가입을 축하합니다^^'); ");
+			msg.append("location='login'; ");
+			//return "redirect:login";
+		} else {
+			msg.append("alert('회원가입 실패ㅠㅠ'); ");
+			msg.append("location='join'; ");
+			//return "redirect:join";
+		}
+		msg.append("</script>");
+		return msg.toString();
+	}
+	
 	// 아이디 중복확인 요청
 	@ResponseBody @RequestMapping("/idCheck")
 	public boolean idCheck(String userid) {
-		return true;
+		return mapper.getOneMember(userid)==null ? true : false;
 	}
 	
 	// 회원가입화면 요청

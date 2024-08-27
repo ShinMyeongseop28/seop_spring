@@ -1,9 +1,13 @@
 package kr.co.smart.common;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +15,8 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.co.smart.member.MemberVO;
 
@@ -22,6 +28,39 @@ public class CommonUtility {
 	@Value("${spring.mail.host}") private String emailHost;
 	@Value("${spring.mail.username}") private String emailUser;
 	@Value("${spring.mail.password}") private String emailPass;
+	@Value("${smart.upload}") private String uploadPath;  // d://smart/app/upload/
+	
+	// 파일 업로드
+	public String fileUpload(String category, MultipartFile file, HttpServletRequest request) {
+		// d://smart/app/upload/profile/2024/8/27
+		// d://smart/app/upload/notice/2024/8/27
+		// d://smart/app/upload/board/2024/8/27
+		String upload = uploadPath + category + new SimpleDateFormat("/yyyy/MM/dd/").format(new Date());
+		// 해당 폴더의 존재유무를 확인해 없다면 폴더 만들기
+		File dir = new File( upload );
+		if( ! dir.exists() ) dir.mkdirs();
+		
+		// 업로드할 파일명을 고유한 id로 변경하기 : 7145ea2a-7895-4e93-a97d-b6f9d66c0c45.jpg
+		String filename = UUID.randomUUID().toString()+ "."
+				+ StringUtils.getFilenameExtension( file.getOriginalFilename() );
+		// 클라이언트에서 선택한 파일을 서버의 영역에 물리적으로 저장
+		try {
+			file.transferTo( new File(upload, filename) );
+		} catch (Exception e) {}
+		
+		// d://smart/app/upload/profile/2024/8/27/7145ea2a-7895-4e93-a97d-b6f9d66c0c45.jpg
+		// http://localhost:80/smart/upload/profile/2024/8/27/7145ea2a-7895-4e93-a97d-b6f9d66c0c45.jpg
+		// http://localhost:80/smart
+		return toUrlFilePath(upload, request) + filename;
+	}
+	
+	// 물리적형태 -> url형태
+	//uploadPath;	d://smart/app/upload/
+	// 				d://smart/app/upload/profile/2024/8/27/7145ea2a-7895-4e93-a97d-b6f9d66c0c45.jpg
+	// http://localhost:80/smart/upload/profile/2024/8/27/7145ea2a-7895-4e93-a97d-b6f9d66c0c45.jpg
+	public String toUrlFilePath(String filepath, HttpServletRequest request) {
+		return filepath.replace(uploadPath, appURL(request, "/upload/")); // "http://localhost:80/smart/upload/")
+	}
 	
 	// Http통신API요청
 	public String requestAPI(HttpURLConnection con) throws Exception {

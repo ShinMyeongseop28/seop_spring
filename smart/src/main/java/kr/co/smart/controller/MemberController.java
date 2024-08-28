@@ -1,12 +1,17 @@
 package kr.co.smart.controller;
 
+import java.io.File;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,13 +19,37 @@ import org.springframework.web.multipart.MultipartFile;
 import kr.co.smart.common.CommonUtility;
 import kr.co.smart.member.MemberMapper;
 import kr.co.smart.member.MemberVO;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-@Controller @AllArgsConstructor @RequestMapping("/member")
+@Controller @RequiredArgsConstructor @RequestMapping("/member")
 public class MemberController {
-	private CommonUtility common;
-	private MemberMapper mapper;
-	private PasswordEncoder password;
+	private final CommonUtility common;
+	private final MemberMapper mapper;
+	private final PasswordEncoder password;
+	
+	@Value("${smart.files}")
+	private String filesPath;
+	
+	// 내정보 변경저장 처리 요청
+	@PutMapping("/user/myPage/modify")
+	public String myPage( MemberVO vo, HttpSession session) {
+		// 화면에서 입력한 정보로 DB에 변경저장
+		if( mapper.updateMember(vo)==1 ) {
+			session.setAttribute("loginInfo", vo);
+		}
+		return "redirect:/";
+	}
+	
+	// MyPage 화면 요청
+	@RequestMapping("/user/myPage")
+	public String myPage(HttpSession session, Model model) {
+		session.setAttribute("category", "my");
+		
+		// 로그인한 사용자 정보를 조회해오기
+		String userid = ((MemberVO)session.getAttribute("loginInfo")).getUserid();
+		model.addAttribute("vo", mapper.getOneMember(userid));
+		return "member/myPage";
+	}
 	
 	// 회원가입처리 요청
 	@ResponseBody @RequestMapping("/register")
@@ -36,6 +65,9 @@ public class MemberController {
 		StringBuffer msg = new StringBuffer("<script>");
 		
 		if( mapper.registerMember(vo) == 1 ) {
+			// 회원가입축하 메시지를 이메일로 보내기
+			common.emailForJoin(vo, new File( filesPath + "[무료 자료]Do it! 안드로이드 앱 프로그래밍_개정8판_미리보기.pdf" ).getPath());
+			
 			msg.append("alert('회원가입을 축하합니다^^'); ");
 			msg.append("location='login'; ");
 			//return "redirect:login";

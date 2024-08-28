@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.mail.EmailAttachment;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.HtmlEmail;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,7 @@ public class CommonUtility {
 	@Value("${spring.mail.username}") private String emailUser;
 	@Value("${spring.mail.password}") private String emailPass;
 	@Value("${smart.upload}") private String uploadPath;  // d://smart/app/upload/
+	private String filename;
 	
 	// 파일 업로드
 	public String fileUpload(String category, MultipartFile file, HttpServletRequest request) {
@@ -114,6 +116,38 @@ public class CommonUtility {
 		sender.setHostName(emailHost);
 		sender.setAuthentication(emailUser, emailPass); //이메일주소, 비번
 		sender.setSSLOnConnect(true); //로그인버튼 클릭
+	}
+	
+	// 회원가입축하 메시지 보내기
+	public void emailForJoin(MemberVO vo, String filename) {
+		HtmlEmail sender = new HtmlEmail();
+		mailSender( sender );
+		
+		try {
+			sender.setFrom(emailUser, "스마트IoT 관리자");	// 송신인
+			sender.addTo(vo.getEmail(), vo.getName());	  // 수신인
+			
+			// 제목
+			sender.setSubject("스마트IoT 회원가입 축하");
+			// 내용
+			StringBuffer content = new StringBuffer();
+			content.append("<h3><a target ='_blank' href='https://www.naver.com/'>스마트IoT</a></h3>")
+				   .append("<div>[<strong>").append(vo.getName()).append("</strong>]님 회원가입을 축하합니다</div>")
+				   .append("<div>당신의 취업성공을 응원합니다</div>");
+			sender.setHtmlMsg( content.toString() );
+			
+			//파일 첨부하기
+			EmailAttachment file = new EmailAttachment();
+			file.setPath( filename );
+			sender.attach(file);
+			
+			sender.send(); // 보내기
+			
+		} catch (EmailException e) {
+//			System.out.println(e.getMessage());
+		} 
+		
+		
 	}
 	
 	//임시비밀번호 이메일 보내기

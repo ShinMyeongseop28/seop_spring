@@ -171,32 +171,6 @@ $("#btn-join").on("click", function(){
 	if( validStatus() ) $("form").submit()
 })
 
-// 각 태그입력 유효성 재확인
-function validStatus(){
-	var valid = true;
-	
-	$(".check-item").each(function(){
-		var desc = $(this).closest(".input-check").find(".desc")
-		// 아이디는 사용가능이 아닌 경우 유효하지 않음
-		if( $(this).is("[name=userid]") && ! desc.text().includes("사용가능")){
-			valid = false;
-		}
-		if( ! desc.hasClass("text-success") ){
-			valid = false;
-		} else if ( ! desc.hasClass("text-success")) {
-			valid = false;
-		}
-		
-		if( ! valid ){ // 회원가입불가 이유 표시하기
-			alert( "회원가입 불가!\n" +$(this).attr("title") + " " + desc.text() )
-			$(this).focus()
-			return valid;
-		}
-	})
-	
-	return valid;
-}
-
 $("#btn-userid").on("click", function(){
 	idCheck()
 })
@@ -220,13 +194,6 @@ function idCheck(){
 		id.focus()
 	}
 }
-
-$(function(){
-	//생년월일자를 13세 이상으로 선택가능하게 제한하기
-	var endDay = new Date()
-	endDay.setFullYear( endDay.getFullYear() - 13 );
-	$("[name=birth]").datepicker( "option", "maxDate", endDay );
-})
 
 $("table th span").addClass("text-danger fw-bold me-2")
 

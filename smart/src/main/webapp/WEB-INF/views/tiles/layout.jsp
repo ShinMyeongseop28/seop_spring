@@ -11,6 +11,7 @@
 	<c:when test="${ category eq 'vi' }"> <c:set var="title" value="- 시각화"/> </c:when>
 	<c:when test="${ category eq 'login' }"> <c:set var="title" value="- 로그인"/> </c:when>
 	<c:when test="${ category eq 'change' }"> <c:set var="title" value="- 비밀번호변경"/> </c:when>
+	<c:when test="${ category eq 'my' }"> <c:set var="title" value="- 내 정보"/> </c:when>
 </c:choose>
 
 <!DOCTYPE html>
@@ -27,7 +28,7 @@
         <link href="<c:url value='/css/styles.css'/>" rel="stylesheet" />
         <link href="<c:url value='/css/common.css'/>" rel="stylesheet" />
         <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
-        <link rel="stylesheet" href="<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
         
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
         <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
@@ -38,7 +39,7 @@
     </head>
     <body>
         <div class="d-flex" id="wrapper">
-            <!-- Sidebar-->
+            <!-- Sidebar -->
             <div class="border-end bg-white" id="sidebar-wrapper">
                 <div class="sidebar-heading border-bottom bg-light">
                 <a href="<c:url value='/'/>"><img src="<c:url value='/images/logo.png'/>" class="w-75"></a>
@@ -83,7 +84,7 @@
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     	<c:if test="${ empty loginInfo.social }">
                                         <a class="dropdown-item" href="#!">아이디: ${ loginInfo.userid }</a>
-                                        <a class="dropdown-item" href="#!">My page</a>
+                                        <a class="dropdown-item" href="<c:url value='/member/user/myPage'/>">My page</a>
                                         <a class="dropdown-item" href="<c:url value='/member/user/changePassword'/>">비밀번호 변경</a>
                                         <div class="dropdown-divider"></div>
                                         </c:if>

@@ -137,8 +137,14 @@ $("#btn-save").on("click", function(){
 		return;
 	}
 	if( validStatus() ) {
-		$("form").append( `<input type = 'hidden' name="userid" value="${vo.userid}">`)
-				 .append( `<input type = 'hidden' name="_method" value="put">`)
+		
+		// 원래O -> 화면프로필O -> img태그O
+		// 원래O -> 화면기본O -> img태그X
+		var img = $(".file-preview").find("img").length==1 ? true : false;
+		
+		$("form").append( `<input type = 'hidden' name="userid" value="${vo.userid}">` )
+				 .append( `<input type = 'hidden' name="_method" value="put">` )
+				 .append( `<input type = 'hidden' name="img" value="\${img}">` )
 				 .submit()
 	}
 })

@@ -7,5 +7,6 @@
     <typeAlias type="kr.co.smart.hr.DepartmentVO" alias="Department" />
     <typeAlias type="kr.co.smart.hr.JobVO" alias="Job" />
     <typeAlias type="kr.co.smart.member.MemberVO" alias="Member" />
+    <typeAlias type="kr.co.smart.notice.NoticeVO" alias="notice" />
   </typeAliases>
 </configuration>

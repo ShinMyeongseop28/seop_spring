@@ -30,7 +30,15 @@ public class CommonUtility {
 	@Value("${spring.mail.username}") private String emailUser;
 	@Value("${spring.mail.password}") private String emailPass;
 	@Value("${smart.upload}") private String uploadPath;  // d://smart/app/upload/
-	private String filename;
+	
+	// 첨부된 파일 삭제하기-물리적삭제
+	public void fileDelete(String fileInfo, HttpServletRequest request) {
+		if( fileInfo != null) {
+			// url경로형태 -> 실제파일경로형태
+			File file = new File( toRealFilePath(fileInfo, request));
+			if( file.exists() ) file.delete();
+		}
+	}
 	
 	// 파일 업로드
 	public String fileUpload(String category, MultipartFile file, HttpServletRequest request) {
@@ -62,6 +70,11 @@ public class CommonUtility {
 	// http://localhost:80/smart/upload/profile/2024/8/27/7145ea2a-7895-4e93-a97d-b6f9d66c0c45.jpg
 	public String toUrlFilePath(String filepath, HttpServletRequest request) {
 		return filepath.replace(uploadPath, appURL(request, "/upload/")); // "http://localhost:80/smart/upload/")
+	}
+	
+	// url형태 -> 실제 물리적형태로 바꾸기
+	public String toRealFilePath(String filepath, HttpServletRequest request) {
+		return filepath.replace( appURL(request, "/upload/"), uploadPath);
 	}
 	
 	// Http통신API요청

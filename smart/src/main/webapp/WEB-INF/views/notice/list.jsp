@@ -17,25 +17,27 @@
 
 <table class="table tb-list">
 <colgroup>
+	<col width="70px">
 	<col width="">
 	<col width="130px">
 	<col width="130px">
 	<col width="90px">
 	<col width="70px">
 </colgroup>
-<tr><th>제목</th><th>작성자</th><th>작성일자</th><th>조회수</th><th>첨부파일</th></tr>
+<tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일자</th><th>조회수</th><th>첨부파일</th></tr>
 
-<c:if test="${ empty list }">
+<c:if test="${ empty page.list }">
 <tr><td colspan="5" class="text-center">공지글이 없습니다</td></tr>
 </c:if>
 
-<c:forEach items="${ list }" var="vo">
+<c:forEach items="${ page.list }" var="vo">
 <tr>
+	<td>${ vo.no }</td>
 	<td>${ vo.title }</td>
 	<td>${ vo.name }</td>
 	<td>${ vo.writedate }</td>
 	<td>${ vo.readcnt }</td>
-	<td><c:if test="${ !empty vo.filename }">O</c:if>
+	<td><c:if test="${ !empty vo.filename }"><i class="fa-solid fa-paperclip"></i></c:if>
 	</td>
 </tr>
 </c:forEach>

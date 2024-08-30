@@ -33,13 +33,15 @@ $(function(){
 		
 		var preview = $(this).closest(".file-info").find(".file-preview")
 		var remove = $(this).closest(".file-info").find(".file-remove");
+		var filename = $(this).closest(".file-info").find(".file-name");
 		
 		var attached = this.files[0];
 		if ( attached ){ //선택한 파일이 있는 경우
 			// 파일크기 제한하는 경우
 			if( fileSizeOver(attached, $(this)) ) return;
 			
-			remove.removeClass("d-none") // 삭제버튼 보이게
+			remove.removeClass("d-none") 	// 삭제버튼 보이게
+			filename.text( attached.name )  // 선택한 파일명 보이게
 			
 			// 이미지만 첨부해야 하는 경우
 			if( $(this).hasClass("image-only") ){
@@ -73,12 +75,6 @@ $(function(){
 		console.log("파일> ", $(this).val())
 	})
 	
-	// 파일삭제 클릭시 선택한 파일정보 삭제
-	$(".file-info .file-remove").on("click", function(){
-		singleFile = "";
-		setFileInfo( $(this) )
-	})
-	
 	$(".date + .date-remove").on("click", function(){
 		$(this).prev(".date").val("");
 	})
@@ -98,7 +94,8 @@ function setFileInfo( tag ){
 	}else{
 		// 선택한 파일정보 삭제
 		info.find( ".file-single" ).val("");
-		info.find( ".file-remove" ).addClass("d-none") // 삭제버튼 안보이게
+		info.find( ".file-remove" ).addClass("d-none")  // 삭제버튼 안보이게
+		info.find( ".file-name" ).empty();				// 파일명 안보이게
 		
 		// 프로필은 기본이미지로 지정
 		var preview = info.find(".file-preview")
@@ -112,6 +109,11 @@ function setFileInfo( tag ){
 $(document).on("click",".date + .date-remove", function(){
 	//폰트이미지가 동적으로 만들어지므로 문서에 이벤트 등록
 	$(this).addClass("d-none").prev(".date").val("");
+})
+.on("click", ".file-info .file-remove", function(){
+	// 파일삭제 클릭시 선택한 파일정보 삭제
+	singleFile = "";
+	setFileInfo( $(this) )
 })
 
 // 파일크기 제한하기
@@ -140,6 +142,18 @@ function findPost( post, address1, address2 ){
 	}).open();
 }
 
-
+//필수입력항목 입력여부 확인
+function isNotEmpty(){
+	var ok = true;
+	$(".check-empty").each(function(){
+		if( $(this).val()==""){
+			alert( $(this).attr("title") + " 입력하세요!" )
+			$(this).focus()
+			ok = false;
+			return ok;
+		}
+	})
+	return ok;
+}
 
 

@@ -17,5 +17,5 @@ public interface NoticeMapper {
 	int updateReadCount(int id);				// 조회수 변경
 	
 	List<Object> getListOfNotice(PageVO page);	// 공지글 목록조회
-	int countOfNotice();						// 공지글 총건수조회
+	int countOfNotice(PageVO page);				// 공지글 총건수조회
 }

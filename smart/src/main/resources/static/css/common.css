@@ -3,8 +3,8 @@
 body * { vertical-align: middle }
 table { border-top: 2px solid var(--bs-gray-dark)}
 table th { background-color: var(--bs-gray-100) !important}
-table.tb-list th, table tb-list td, 
-table.tb-row th, table tb-row td 
+table.tb-list th, table.tb-list td, 
+table.tb-row th, table.tb-row td 
 	{ border-right: 1px solid var(--bs-border-color); 
 	padding-left: 20px !important
 }
@@ -13,7 +13,7 @@ table.tb-list tr { height: 45px }
 table.tb-row tr { height: 55px }
 
 a:link, a:visited {text-decoration: none; color: initial;}
-a.text-link:hover {text-decoration: underline; color: var(--bs-link-hover-color);}
+.text-link:hover {text-decoration: underline; color: var(--bs-link-hover-color);}
 
 .w-px40 { width: 40px !important }
 .w-px80 { width: 80px !important }

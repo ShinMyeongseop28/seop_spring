@@ -28,7 +28,7 @@ public class SmartController {
 			// 해당 아이디의 회원정보가 있는 경우만 입력비번과 DB의 암호화된 비번의 일치여부 확인
 			match = password.matches(userpw, vo.getUserpw());
 			if( match ) {
-//				session.setAttribute("loginInfo", vo);
+				session.setAttribute("loginInfo", vo);
 			}
 		}
 		// ------------------------------------------

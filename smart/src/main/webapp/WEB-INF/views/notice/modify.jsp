@@ -8,7 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h3 class="my-4">공지글 수정</h3>
+<h3 class="my-4">${ vo.indent==0? '공지글' : '답글' } 수정</h3>
 <form method="post" action="modify" enctype="multipart/form-data">
 <table class="table tb-row">
 <colgroup>
@@ -54,7 +54,7 @@ $(function(){
 $("#btn-save").on("click", function(){
 	var filename = $(".file-name").text()
 	if( isNotEmpty() ) $("form").append(`<input type="hidden" name="id" value="${vo.id}">`)
-								.append(`<input type="hidden" name="_method" value="put">`)
+  								.append(`<input type="hidden" name="_method" value="put">`)
 								.append(`<input type="hidden" name="pageNo" value="${page.pageNo}">`)
 								.append(`<input type="hidden" name="search" value="${page.search}">`)
 								.append(`<input type="hidden" name="keyword" value="${page.keyword}">`)

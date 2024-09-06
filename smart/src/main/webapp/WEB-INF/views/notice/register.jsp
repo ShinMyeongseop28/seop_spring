@@ -45,7 +45,7 @@
 <script>
 
 $("#btn-save").on("click", function(){
-	if( isNotEmpty() ) $("form").append(`<input type="hidden" name="writer" value="${loginInfo.userid}">`).submit()
+	if( isNotEmpty() ) $("form").submit()
 })
 
 $("#btn-cancel").on("click", function(){

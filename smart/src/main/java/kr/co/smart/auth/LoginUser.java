@@ -21,7 +21,7 @@ public class LoginUser implements UserDetails{
 		auths.add(new SimpleGrantedAuthority(user.getRole()));
 		// 관리자는 사용자 권한도 부여
 		if( user.getRole().equals("ADMIN") ) {
-			auths.add( new SimpleGrantedAuthority("user"));
+			auths.add( new SimpleGrantedAuthority("USER"));
 		}
 		return auths;
 	}

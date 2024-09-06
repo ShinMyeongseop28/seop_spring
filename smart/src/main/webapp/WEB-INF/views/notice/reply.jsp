@@ -61,7 +61,7 @@
 <script>
 
 $("#btn-save").on("click", function(){
-	if( isNotEmpty() ) $("form").append(`<input type="hidden" name="writer" value="${loginInfo.userid}">`)
+	if( isNotEmpty() ) $("form").append(`<input type="hidden" name="writer" value="${auth.userid}">`)
 								.append(`<input type="hidden" name="rid" value="${vo.id}">`)
 								.append(`<input type="hidden" name="root" value="${vo.root}">`)
 								.append(`<input type="hidden" name="step" value="${vo.step}">`)

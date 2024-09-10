@@ -32,7 +32,7 @@
 						</div>
 						<div class="form-check mb-3">
 							<label>
-								<input class="form-check-input" name="remember-me" type="checkbox"> 
+								<input class="form-check-input" name="remember-me" type="checkbox" checked> 
 								로그인 상태 유지
 							</label>
 						</div>
@@ -58,7 +58,12 @@
 </body>
 <script>
 $("#naver, #kakao").on("click", function(){
-	location = $(this).attr("id") + "Login"
+	// http://localhost/smart/member/naverLogin
+	// location = $(this).attr("id") + "Login"
+	
+	// http://localhost/smart/oauth2/authorization/naver
+	// http://localhost/smart/oauth2/authorization/kakao
+	location = "<c:url value='/oauth2/authorization/' />" + $(this).attr("id")
 })
 </script>
 </html>

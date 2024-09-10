@@ -11,7 +11,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,9 +31,11 @@ public class MemberController {
 	@Value("${smart.files}")
 	private String filesPath;
 	
+	// Principal : 접근주체인 UserDetails (LoginUser)
 	// 내정보 변경저장 처리 요청
 	@PutMapping("/user/myPage/modify")
-	public String myPage( MemberVO vo, boolean img, MultipartFile file, HttpSession session, HttpServletRequest request) {
+	public String myPage( @AuthenticationPrincipal LoginUser principal,
+			MemberVO vo, boolean img, MultipartFile file, HttpSession session, HttpServletRequest request) {
 		// 원래 프로필정보를 조회해오기
 		MemberVO user = mapper.getOneMember(vo.getUserid());
 		
@@ -65,7 +66,7 @@ public class MemberController {
 				}
 			}
 			
-			session.setAttribute("loginInfo", vo);
+			principal.setUser(vo);
 		}
 		return "redirect:/";
 	}

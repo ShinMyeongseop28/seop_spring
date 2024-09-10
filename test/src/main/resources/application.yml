@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: test
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: ${oracle.url}
+    username: ${oracle.username} 
+    password: ${oracle.password} 
+
+server:
+  port: 80
+  servlet:
+    context-path: /test
+
+mybatis:
+  mapper-locations: classpath:sqlmap/*Mapper.xml
+  config-location: classpath:sqlmap/typeConfig.xml

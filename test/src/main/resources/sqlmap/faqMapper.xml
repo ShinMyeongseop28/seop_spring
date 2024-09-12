@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.co.test.faq.FaqMapper">
+
+<!-- 질문글 삭제처리 -->
+<delete id="deleteFaq">
+delete from faq where id = #{id}
+</delete>
+
+<!-- 질문글 신규 등록 -->
+<insert id="registerFaq">
+insert into faq (question, answer)
+values (#{question}, #{answer})
+</insert>
+
+<!-- 질문글 변경저장 -->
+<update id="updateFaq">
+update faq set question = #{question}, answer = #{answer}
+where id = #{id}
+</update>
+
+<!-- 질문글 정보 -->
+<select id="getOneFaq" resultType="faq">
+select * from faq where id = #{id}
+</select>
+
+<!-- 질문글 목록조회 -->
+<select id="getListOfFaq" resultType="faq">
+select * from faq order by id desc
+</select>
+</mapper>

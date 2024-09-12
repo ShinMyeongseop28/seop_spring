@@ -20,3 +20,4 @@ server:
 
 mybatis:
   mapper-locations: classpath:sqlmap/*Mapper.xml
+  config-location: classpath:sqlmap/typeConfig.xml

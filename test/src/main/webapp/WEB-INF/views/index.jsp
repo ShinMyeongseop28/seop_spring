@@ -4,9 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>CRUD</title>
 </head>
 <body>
 <h3>자주하는 질문 FAQ</h3>
+
+<a href="faq/list">질문 목록</a>
 </body>
 </html>

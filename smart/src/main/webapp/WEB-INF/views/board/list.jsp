@@ -56,7 +56,7 @@
 <c:forEach items="${ page.list }" var="vo">
 <tr>
 	<td>${ vo.no }</td>
-	<td><a class="text-link" href=""> ${ vo.title }</a>
+	<td><a class="text-link" href="javascript:info( ${ vo.id } )"> ${ vo.title }</a>
 		<c:if test="${ vo.filecnt > 0 }">
 		<i class="fa-solid fa-paperclip"></i>
 		</c:if>
@@ -72,6 +72,14 @@
 
 </body>
 <script>
+function info( id ){
+	// form태그에 search, keyword, listSize
+	$("form").append(`<input type="hidden" name="id" value="\${id}">`)
+			 .append(`<input type="hidden" name="pageNo" value="${page.pageNo}">`)
+			 .attr("action", "info")
+			 .submit()
+}
+
 $("[name=listSize]").on("change", function(){
 	$("form").submit()
 })

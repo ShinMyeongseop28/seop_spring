@@ -226,8 +226,23 @@ public class MemberController {
 	
 	// 로그인 화면 요청
 	@RequestMapping("/login")
-	public String login(HttpSession session) {
+	public String login(HttpSession session, boolean redirect, HttpServletRequest request) {
 		session.setAttribute("category", "login");
+		
+		if( redirect ) {
+			//http://localhost/smart/board/info?id=1&pageNo=1...
+			StringBuffer url = new StringBuffer( request.getHeader("referer") );
+			if( ! request.getHeader("referer").contains("?") ) {
+				url.append("?");
+				for( String key : request.getParameterMap().keySet() ) {
+					if( key.equals("redirect") ) continue;
+					url.append(key).append("=").append( request.getParameter(key) ).append("&");
+				}
+				url.deleteCharAt( url.length()-1 );
+			}
+			session.setAttribute("savedURL", url.toString());
+		}
+		
 		return "default/member/login";
 	}
 }

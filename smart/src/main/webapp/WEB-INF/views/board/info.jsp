@@ -68,6 +68,8 @@
 	</sec:authorize>
 </div>
 
+<jsp:include page="comment/register.jsp"></jsp:include>
+
 <script>
 $(".file-download").on("click", function(){
 	var id = $(this).data("file");

@@ -28,6 +28,8 @@ public class AccessUser {
 		
 		if( url.contains("notice"))
 			access = auth.getName().equals( notice.getOneNotice(id).getWriter());
+		else if( url.contains("board/comment"))
+			access = auth.getName().equals( board.getOneComment(id).getWriter());
 		else if( url.contains("board"))
 			access = auth.getName().equals( board.getOneBoard(id).getWriter());
 			

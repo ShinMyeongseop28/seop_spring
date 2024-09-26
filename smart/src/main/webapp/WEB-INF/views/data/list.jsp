@@ -17,7 +17,7 @@
 </ul>
 
 <div class="d-flex mb-2 justify-content-between">
-	<div class="col-auto animal-top"></div>
+	<div class="col-auto animal-top d-flex gap-2"></div>
 	<div class="col-auto">
 		<select id="listSize" class="form-select">
 			<c:forEach var="i" begin="1" end="5">
@@ -29,23 +29,60 @@
 
 <div id="data-list"></div>
 
-<jsp:include page="/WEB-INF/views/include/modal.jsp"></jsp:include>
+<jsp:include page="/WEB-INF/views/include/modal.jsp"/>
+<jsp:include page="/WEB-INF/views/include/loading.jsp"/>
 
 </body>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=27b7a362d1c9a85344e9188e9679964c"></script>
+<script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=jsbfs5dqif"></script>
+<script type="text/javascript" src="<c:url value='/js/animal.js'/>"></script>
 <script>
 $(function(){
-	$(".data li").eq(0).trigger("click");	// 약국조회 되도록 클릭 강제발생 시키기
+	$(".data li").eq(1).trigger("click");	// 약국조회 되도록 클릭 강제발생 시키기
 })
 
 $(document)
 .on("click", ".pagination a", function(){
+	if( $("table#pharmacy").length > 0){
+		pharmacyList( $(this).data("page"), $("#listSize option:selected").val() )
+	} else {
+		animalList( $(this).data("page"), $("#listSize option:selected").val() )
+	}
+	window.scrollTo(0, 100);
 	pharmacyList( $(this).data("page"), $("#listSize option:selected").val() )
 })
 .on("click", ".map", function(){ // 약국명 클릭시 지도에 위치표시하기
-	showKakaoMap( $(this) );
+	// showKakaoMap( $(this) );
+	showNaverMap( $(this) );
 })
+
+//네이버지도
+function showNaverMap( tag ){
+	$("#map").remove();
+	$("#modal").after(`<div id="map" style="width:670px;height:700px;"></div>`);
+	
+	var xy = new naver.maps.LatLng( tag.data("y"), tag.data("x") );
+	var mapOptions = {
+	    center: xy,
+	    zoom: 15
+	};
+	var map = new naver.maps.Map('map', mapOptions);
+	
+	var marker = new naver.maps.Marker({
+	    position: xy,
+	    map: map
+	});
+	
+	var infowindow = new naver.maps.InfoWindow({
+	    content: `<div class="p-2 fw-bold text-primary">\${tag.text()}</div>`
+	});
+    infowindow.open(map, marker);
+	
+	//지도가 있는 #map 태그를 모달창에 옮기기
+	$("#modal .modal-body").html( $("#map") )
+	new bootstrap.Modal( $("#modal") ).show()
+}
 
 // 카카오지도
 function showKakaoMap( tag ){
@@ -86,25 +123,31 @@ function showKakaoMap( tag ){
 }
 
 $("#listSize").on("change", function(){
-	pharmacyList( 1, $(this).val() )
+	if( $("table#pharmacy").length > 0){
+		pharmacyList( 1, $(this).val() )		
+	} else
+		animalList( 1, $(this).val() )
 })
 
 $(".data li").on("click", function(){
 	$(".data li a").removeClass("active")
 	$(this).children("a").addClass("active")
+	$("#data-list").empty()
 	
 	var idx = $(this).index()
 	if( idx==0 ) pharmacyList( 1, $("#listSize option:selected").val() );
-	else if( idx==1 ) animalList();
+	else if( idx==1 ) animalList( 1, $("#listSize option:selected").val() );
 })
 
 // 약국 조회
 function pharmacyList( pageNo, listSize ){
+	$(".loading").removeClass("d-none") // 로딩중..
 	$.ajax({
 		url: "pharmacy",
 		data: { pageNo: pageNo, listSize: listSize }
 	}).done(function(response){
 		$("#data-list").html( response )
+		$(".loading").addClass("d-none")
 	})
 /*	
 	$("#data-list").html(
@@ -139,10 +182,6 @@ function pharmacyList( pageNo, listSize ){
 		$("#pharmacy tbody").html( tag )
 	})
 */
-}
-// 구조동물 조회
-function animalList(){
-	
 }
 
 </script>

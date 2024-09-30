@@ -14,6 +14,13 @@ import lombok.RequiredArgsConstructor;
 public class SmartController {
 	private final MemberMapper memberMapper;
 	private final PasswordEncoder password;
+	
+	//시각화 화면 요청
+	@RequestMapping("/visual/list")
+	public String list(HttpSession session) {
+		session.setAttribute("category", "vi");
+		return "visual/list";
+	}
 
 	@RequestMapping("/")
 	public String layout(HttpSession session) {

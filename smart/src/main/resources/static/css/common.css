@@ -28,6 +28,7 @@ a:link, a:visited, .pagination a, .nav-pills a {text-decoration: none; color: in
 .h-px40 { height: 40px !important }
 .h-px110 { height: 110px !important }
 .h-px150 { height: 150px !important }
+.h-px600 { height:600px !important }
 
 .profile img { width: 100%; height: 100%; border-radius: 50%}
 .font-profile { height: 100%; color: #6c757d;}

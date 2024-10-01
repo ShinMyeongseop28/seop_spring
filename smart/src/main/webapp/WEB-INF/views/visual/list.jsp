@@ -8,7 +8,10 @@
 <style>
 #legend span { width: 44px; height: 17px }
 </style>
+<link rel="stylesheet" href="<c:url value='/css/yearpicker.css'/>">
+<script type="text/javascript" src="<c:url value='/js/yearpicker.js'/>"></script>
 </head>
+
 <body>
 <h3 class="my-4">사원정보분석</h3>
 <ul class="nav nav-tabs" id="visual">
@@ -20,15 +23,15 @@
 <div id="tab-content" class="py-3 h-px600">
 	<div class="tab text-center">
 		<div class="form-check form-check-inline">
-  		<label class="form-check-label">
-  			<input class="form-check-input" type="radio" name="chart" value="bar">막대그래프
-  		</label>
-	</div>
-	<div class="form-check form-check-inline">
-  		<label class="form-check-label">
-  			<input class="form-check-input" type="radio" name="chart" value="doghnut" checked>도넛그래프
-  		</label>
-	</div>	
+  			<label class="form-check-label">
+  				<input class="form-check-input" type="radio" name="chart" value="bar">막대그래프
+  			</label>
+		</div>
+		<div class="form-check form-check-inline">
+  			<label class="form-check-label">
+  				<input class="form-check-input" type="radio" name="chart" value="doghnut" checked>도넛그래프
+  			</label>
+		</div>	
 	</div>
 	
 	<div class="tab text-center">
@@ -36,16 +39,24 @@
 	  		<label class="form-check-label">
 	  			<input class="form-check-input" type="checkbox" id="top3">TOP3부서
 	  		</label>
+		</div>
 		<div class="form-check form-check-inline">
-  		<label class="form-check-label">
-  			<input class="form-check-input" type="radio" name="unit" value="year">년도별
-  		</label>
-	</div>
-	<div class="form-check form-check-inline">
-  		<label class="form-check-label">
-  			<input class="form-check-input" type="radio" name="unit" value="month" checked>월별
-  		</label>
-	</div>	
+  			<label class="form-check-label">
+  				<input class="form-check-input" type="radio" name="unit" value="year">년도별
+  			</label>
+  			<div class="d-inline-block year-range">
+  				<div class="d-flex align-items-center gap-2">
+  					<input type="text" class="form-control w-px80" id="begin" readonly>
+  					<span>~</span>
+  					<input type="text" class="form-control w-px80" id="end" readonly>
+  				</div>
+  			</div>
+		</div>
+		<div class="form-check form-check-inline">
+  			<label class="form-check-label">
+  				<input class="form-check-input" type="radio" name="unit" value="month" checked>월별
+  			</label>
+		</div>	
 	</div>
 	
 	<canvas id="chart" class="h-100 m-auto"></canvas>
@@ -71,6 +82,7 @@ $("#visual li").on("click", function(){
 })
 
 function initChart(){
+	console.log('차트초기화')
 	$("#legend").remove()
 	$("#chart").remove()
 	$("#tab-content").append( `<canvas id="chart" class="h-100 m-auto"></canvas>` )
@@ -105,138 +117,16 @@ $("[name=chart]").on("change", function(){
 	department()
 })
 
-function doghnutChart( info ){
-	// 전체사원수
-	var sum = 0;
-	for(var data of info.data){
-		sum += data;
-	}
-	info.pct = info.data.map(function(data){
-		return (data / sum * 100).toFixed(1)  // 소수점 1자리 표시하기
-	})
-	console.log('pct:', info.pct)
-	
-	new Chart( $("#chart"), {
-		type: 'doughnut',
-		data: {
-			labels: info.labels,
-			datasets: [{
-				label: '부서별 사원수',
-				data: info.data,
-				hoverOffset: 20,
-			}]
-		},
-		options: {
-			cutout: '50%',
-			plugins: {
-				autocolors: { mode: 'data'},
-				datalabels: {
-					anchor: 'middle',
-					formatter: function(value, item){
-						// console.log('value: ', value, 'item: ', item)
-						item = `\${value}` < 5 ? '' : `\${value}명\n(\${info.pct[item.dataIndex]}%)`
-						return `\${item}`
-					},
-				}
-			}
-		}
-	})
-}
-
-function lineChart( info ){
-	
-	new Chart( $("#chart"), {
-		type: 'line',
-		data: {
-			labels: info.labels,
-			datasets: [{
-				label: '부서별 사원수',
-				data: info.data,
-				borderColor: "#0000ff",
-				pointBackgroundColor: "#ff0000",
-				pointRadius: 5,
-				tension: 0
-			}]
-		},
-		options: setOptions('부서별 사원수')
-	})
-}
-
-function setOptions(title){
-	
-	return {
-	    scales: {
-	        y: {
-	          title: {
-	            color: 'red',
-	            display: true,
-	            text: title
-	          }
-	        }
-	      },			
-		 
-		plugins: {
-			legend: {
-				display: false,
-			},
-		}
-	}
-}
-
-
-function barChart( info ){
-	// 배열로 새로운 배열을 만들어내는 함수: map
-	info.color = info.data.map(function( data ){
-		return colors[ Math.ceil(data*0.1)-1 ]
-		
-	})
-	
-	new Chart( $("#chart"), {
-		type: 'bar',
-		data: {
-			labels: info.labels,
-			datasets: [{
-				label: '부서별 사원수',
-				data: info.data,
-				borderWidth: 0,
-				barPercentage: 0.5,
-				backgroundColor: info.color,
-			}]
-		},
-		options: setOptions('부서별 사원수')
-	} )
-	
-	makeLegend( Math.max(...info.data) )
-}
-
-function sampleChart(){
-	  new Chart( $("#chart"), {
-	    type: 'bar',
-	    data: {
-	      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-	      datasets: [{
-	        label: '# of Votes',
-	        data: [12, 19, 3, 5, 2, 3],
-	        borderWidth: 1
-	      }]
-	    },
-	    options: {
-	      scales: {
-	        y: {
-	          beginAtZero: true
-	        }
-	      }
-	    }
-	  });	
-}
-
 //채용인원수 조회
 function hirement(){
 	initChart()
 	
 	var unit = $("[name=unit]:checked").val()
 	$.ajax({
-		url: "hirement/" + unit
+		url: "hirement/" + unit,
+		data: JSON.stringify( { begin: $("#begin").val(), end: $("#end").val() } ),
+		type: 'post',
+		contentType: 'application/json',
 	}).done(function(response){
 		console.log( response )
 		var info = {}
@@ -250,30 +140,13 @@ function hirement(){
 	})
 }
 
-function unitChart( info ){
-	info.color = info.data.map(function(data){
-		return colors[ Math.ceil(data*0.1)-1 ]
-		
-	})
-	
-	new Chart( $("#chart"), {
-		type: 'bar',
-		data: {
-			labels: info.labels,
-			datasets: [{
-				data: info.data,
-				barPercentage: 0.5,
-				backgroundColor: info.color
-			}]
-		},
-		options: setOptions( (info.unit=='year' ? '년도별' : '월별') + ' 채용인원수')
-	})
-	
-	makeLegend( Math.max(...info.data) )
-}
-
 // TOP3부서 체크여부에 따라
 $("[name=unit], #top3").on("change", function(){
+	if( $("[name=unit]:checked").val()=="year" )
+		$(".year-range").removeClass("d-none")
+	else
+		$(".year-range").addClass("d-none")
+		
 	if( $("#top3").prop("checked") ) hirement_top3()
 	else 							 hirement()
 })
@@ -281,9 +154,55 @@ $("[name=unit], #top3").on("change", function(){
 // TOP3 부서에 대한 년도별/월별 채용인원수 조회
 function hirement_top3(){
 	initChart()
+	
+	var unit = $("[name=unit]:checked").val()
+	
+	$.ajax({
+		url: "hirement/top3/" + unit,
+		data: JSON.stringify( { begin: $("#begin").val(), end: $("#end").val() } ),
+		type: 'post',
+		contentType: 'application/json',
+	}).done(function(response){
+		console.log( 'list> ', response.list )
+		console.log( 'labels> ', response.labels )
+		
+		var info = {}
+		info.data = [], info.name = [], info.unit = unit;
+		info.labels = response.labels.map(function(yymm){
+			return yymm + (unit=='year'? '년' : '월')
+		})
+		
+		for(var d of response.list){
+			info.name.push(d.department_name);
+			var data = response.labels.map(function(unit){
+				return d[unit]
+			})
+			info.data.push( data )
+		}
+		console.log('info> ', info)
+		top3Chart(info)
+	})
 }
 
+$(document)
+.on("click", ".yearpicker-items", function(){
+	if( $("#begin").val() > $("#end").val() ) $("#begin").val( $("#end").val() )
+	if( $("#top3").prop("checked") ) hirement_top3()
+	else 							 hirement()
+})
+
 $(function(){
+	// 기본년도범위 지정
+	var thisYear = new Date().getFullYear();
+	$("#end").yearpicker({
+		endYear: thisYear,
+		startYear: thisYear-100,
+	})
+	$("#begin").yearpicker({
+		year: thisyear-9,
+		endYear: thisyear,
+		startYear: thisYear-100,
+	})
 	$("#visual li").eq(1).trigger("click") //부서원수 선택
 })
 

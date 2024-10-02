@@ -199,8 +199,8 @@ $(function(){
 		startYear: thisYear-100,
 	})
 	$("#begin").yearpicker({
-		year: thisyear-9,
-		endYear: thisyear,
+		year: thisYear-9,
+		endYear: thisYear,
 		startYear: thisYear-100,
 	})
 	$("#visual li").eq(1).trigger("click") //부서원수 선택

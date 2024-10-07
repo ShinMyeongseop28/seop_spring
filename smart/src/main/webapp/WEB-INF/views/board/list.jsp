@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
+<sec:authorize access = "isAuthenticated()">
+	<sec:authentication property="principal.user" var="auth"/>
+</sec:authorize>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -59,6 +64,10 @@
 	<td><a class="text-link" href="javascript:info( ${ vo.id } )"> ${ vo.title }</a>
 		<c:if test="${ vo.filecnt > 0 }">
 		<i class="fa-solid fa-paperclip"></i>
+		</c:if>
+		
+		<c:if test="${ auth.userid == vo.writer and vo.notifycnt > 0 }"> <!-- 미확인 댓글이 있는 글에 깜빡임 처리 -->
+		<i class="text-danger fa-solid fa-comment-dots fa-bounce"></i>
 		</c:if>
 	</td>
 	<td>${ vo.name }</td>

@@ -43,6 +43,7 @@
     	var socketURL = `ws://${pageContext.request.serverName}:${pageContext.request.serverPort}${pageContext.request.contextPath}/notify-websocket`
     	var authID = `${auth.userid}`
     	var context = `${pageContext.request.contextPath}`
+    	var notifyURL = "<c:url value='/board/comment/notify'/>"
     	</script>
         
     </head>
@@ -83,33 +84,12 @@
                             	<c:if test="${not empty auth}">
                             	
                             	<li class="nav-item dropdown me-5">
-                            		<a class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
-                            			<i class="fs-2 fa-solid fa-bell"></i>
+                            		<a id="notify" class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
+                            			<span><i class="fs-2 fa-solid fa-bell"></i></span>
+                            			<span id="notify-count" class="notify-on">96</span>
                             		</a>
-								  <div id="dropdown-list" class="dropdown-menu dropdown-menu-end">
-								  	<h6 class="px-3 py-2">방명록 댓글 알림</h6>
-								  	<div class="bg-light">
-									    <div class="dropdown-item">
-									    	<div>
-									    		<span>홍길동</span>
-									    		<span>2024/10/02</span>
-									    	</div>
-									    	<div class="notify-comment fw-bold">내용이 들어갈 부분 내용이 들어갈 부분 내용이 들어갈 부분</div>
-									    	<div class="dropdown-divider"></div>
-									    	<div>
-									    		<span>홍길동</span>
-									    		<span>2024/10/02</span>
-									    	</div>
-									    	<div>내용이 들어갈 부분</div>
-									    	<div class="dropdown-divider"></div>
-									    	<div>
-									    		<span>홍길동</span>
-									    		<span>2024/10/02</span>
-									    	</div>
-									    	<div>내용이 들어갈 부분</div>
-									    	<div class="dropdown-divider"></div>
-									    </div>								  	
-								  	</div>
+								  <div id="dropdown-list" class="w-px300 dropdown-menu dropdown-menu-end">
+								  
 								  </div>
 								</li>
                             	

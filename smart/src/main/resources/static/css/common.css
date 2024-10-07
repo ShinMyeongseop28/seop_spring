@@ -22,7 +22,31 @@ a:link, a:visited, .pagination a, .nav-pills a {text-decoration: none; color: in
 	text-overflow: ellipsis;
 	white-space: normal;
 	max-height: 40px;
+	display:-webkit-box;
+	 -webkit-box-orient:vertical;
+	 -webkit-line-clamp:2;
 	/* display: */
+}
+
+/* 미확인댓글수표시 */
+#notify-count {
+	box-sizing: content-box;
+	display: inline-block;
+	position: relative;
+	left: -15px;
+	top: -12px;
+	min-width: 16px;
+	line-height: 16px;
+	padding: 4px;
+	font-size: small;
+	font-weight: bold;
+	text-align: center;
+}
+
+.notify-on {
+	background-color: #dc3545;
+	border-radius: 50%;
+	color: #fff;
 }
 
 .w-px40 { width: 40px !important }
@@ -37,7 +61,9 @@ a:link, a:visited, .pagination a, .nav-pills a {text-decoration: none; color: in
 .h-px40 { height: 40px !important }
 .h-px110 { height: 110px !important }
 .h-px150 { height: 150px !important }
-.h-px600 { height:600px !important }
+.h-px400 { height: 400px !important }
+.h-max520 { max-height: 520px !important }
+.h-px600 { height: 600px !important }
 
 .profile img { width: 100%; height: 100%; border-radius: 50%}
 .font-profile { height: 100%; color: #6c757d;}

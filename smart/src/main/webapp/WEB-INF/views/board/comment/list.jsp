@@ -80,6 +80,10 @@ $(".btn-delete-cancel").on("click", function(){
 				url: "comment/delete/" + comment.data("id")
 			}).done(function( success ){
 				if( success ){
+					// 댓글삭제시 미확인댓글 수 알림처리
+					var info = { userid : $("#comment-list").data("writer"), board_id : $("#comment-list").data("id") }
+					publishNotify(info)
+					
 					commentList( ${subPage.pageNo} );
 				} else {
 					alert("댓글이 삭제되지 않았습니다")

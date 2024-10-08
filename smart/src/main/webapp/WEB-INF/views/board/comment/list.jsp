@@ -115,8 +115,9 @@ function viewStatus(comment){
 	
 	// 내용: textarea의 내용을 .content의 텍스트로
 	var content = comment.find(".content")
-	comment.find(".writing").text( content.find("span").text().length); // 글자수 원래대로
-	content.html( content.find("span").text().replace(/\n/g, '<br>') ) // 댓글내용 원래대로
+	var text = content.find("span").text();
+	comment.find(".writing").text( text.length ); // 글자수 원래대로
+	content.html( text.replace(/\n/g, '<br>') ) // 댓글내용 원래대로
 }
 </script>
 

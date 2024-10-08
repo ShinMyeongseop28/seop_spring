@@ -8,10 +8,11 @@ const stompClient = new StompJs.Client({
 
 $(function(){
 	
+	stompClient.activate();
 	stompClient.onConnect = (frame) => {
 	    console.log('Connected: ' + frame);
 	    stompClient.subscribe('/topic/notify', (notify) => { // 수신
-			console.log( 'subscribe notify>', JSON.parse(notify.body) );
+			// console.log( 'subscribe notify>', JSON.parse(notify.body) );
 	        showNotify( JSON.parse(notify.body) );
 	    });
 		publishNotify(); // 송신
@@ -25,13 +26,28 @@ $(function(){
 		
 		if( notify.comments == 0 ){
 			$("#notify-count").removeClass("notify-on").empty()
+			$(".comment-fade").remove()
 		} else {
 			$("#notify-count").addClass("notify-on").text( notify.comments )
+						
+			// 현재 사용자접속 화면이 방명록 목록인 경우 실시간으로 해당 글에 달린 미확인댓글 존재 표시하기
+			// console.log("href> ", window.location.href )
+			if( window.location.href.includes("/board/list") ){
+				// 미확인 댓글 존재시 깜빡임 표시
+				// 미확인 댓글 없을시 깜빡임 삭제
+				var td = $(`td[data-id=${notify.board_id}]`);
+				if( notify.notifycnt==0 ){
+					td.find(".comment-fade").remove()
+				} else {
+					if( td.find(".comment-fade").length==0 ){
+						td.append(`<i class="comment-fade text-danger fa-solid fa-comment-dots fa-bounce"></i>`)
+					}
+				}
+			}
 		}
 			
 	}
-	stompClient.activate();
-
+	
 	stompClient.onWebSocketError = (error) => {
 	    console.error('Error with websocket', error);
 	};
@@ -52,7 +68,6 @@ $(function(){
 //	        body: JSON.stringify({'name': $("#name").val()})
 //	    });
 //	}
-	
 	
 //	$("#name").on("keyup", function(e){
 //		if( e.keyCode==13 ) sendName()

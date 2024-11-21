@@ -50,7 +50,6 @@ $(document)
 		animalList( $(this).data("page"), $("#listSize option:selected").val() )
 	}
 	window.scrollTo(0, 100);
-	pharmacyList( $(this).data("page"), $("#listSize option:selected").val() )
 })
 .on("click", ".map", function(){ // 약국명 클릭시 지도에 위치표시하기
 	// showKakaoMap( $(this) );

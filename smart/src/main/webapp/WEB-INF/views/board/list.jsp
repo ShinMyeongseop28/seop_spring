@@ -50,7 +50,6 @@
 	<col width="130px">
 	<col width="130px">
 	<col width="90px">
-	<col width="70px">
 </colgroup>
 <tr><th>번호</th><th>제목</th><th>작성자</th><th>작성일자</th><th>조회수</th></tr>
 

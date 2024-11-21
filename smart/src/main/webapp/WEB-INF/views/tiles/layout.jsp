@@ -50,7 +50,7 @@
     
     <body>
 	<!-- <input type="text" id="name" class="form-control" placeholder="Your name here..."> -->
-    	
+   	
         <div class="d-flex" id="wrapper">
             <!-- Sidebar -->
             <div class="border-end bg-white" id="sidebar-wrapper">
@@ -86,7 +86,7 @@
                             	<li class="nav-item dropdown me-5">
                             		<a id="notify" class="nav-link" data-bs-toggle="dropdown" aria-expanded="false">
                             			<span><i class="fs-2 fa-solid fa-bell"></i></span>
-                            			<span id="notify-count" class="notify-on">96</span>
+                            			<span id="notify-count" class="notify-on"></span>
                             		</a>
 								  <div id="dropdown-list" class="w-px300 dropdown-menu dropdown-menu-end">
 								  
